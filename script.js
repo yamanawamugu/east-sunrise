@@ -156,7 +156,6 @@
       `電話：${phone.value.trim() || '未提供'}`,
       `Email：${email.value.trim() || '未提供'}`,
       `空間類型：${form.elements.type.value}`,
-      `預估預算：${form.elements.budget.value}`,
       `需求說明：${form.elements.msg.value.trim() || '未提供'}`,
     ].join('\n');
     const subject = `東陞室內裝修諮詢｜${name.value.trim()}`;
