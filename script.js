@@ -4,7 +4,11 @@
 
   /* Nav: solid background after scrolling, mobile menu */
   const nav = $('#nav'), menu = $('#menu'), burger = $('#burger');
-  const onScroll = () => nav.classList.toggle('solid', scrollY > 60 || !document.body.classList.contains('home-page'));
+  const onScroll = () => {
+    nav.classList.toggle('solid', scrollY > 60 || !document.body.classList.contains('home-page'));
+    const scrollable = document.documentElement.scrollHeight - innerHeight;
+    document.documentElement.style.setProperty('--scroll-progress', scrollable > 0 ? scrollY / scrollable : 0);
+  };
   addEventListener('scroll', onScroll, { passive: true });
   onScroll();
   const setMenu = open => {
