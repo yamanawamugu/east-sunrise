@@ -492,3 +492,98 @@ body::before{
   .js .reveal,.js .reveal.in{opacity:1;transform:none;clip-path:none}
   .about-media img,.card img{transform:none;clip-path:none}
 }
+
+/* CENTERED TYPE AND SLOW EDITORIAL REVEALS */
+body{text-align:center}
+.brand{align-items:center;text-align:center}
+.menu{justify-content:center}
+.hero-copy{margin-inline:auto}
+.hero-copy .hero-actions{justify-content:center}
+.hero-location{justify-content:center}
+.section-head{flex-direction:column;align-items:center;text-align:center}
+.section-head>div{width:100%}
+.head-note{max-width:620px;margin-inline:auto}
+.filters{justify-content:center}
+.card-info{text-align:center}
+.about-copy{margin-inline:auto}
+.stats{justify-content:center}
+.stats span{margin-inline:auto}
+.service-track .eyebrow{justify-content:center}
+.service-track li{text-align:center}
+.pricing-cta{text-align:center}
+.price-panel table,.article-table table{text-align:center}
+.article-table{overflow-x:auto}
+.article-list{list-style-position:inside;padding-left:0}
+.article-list li{padding-inline:8px}
+.breadcrumbs{justify-content:center;margin-inline:auto}
+.article-wrap,.article-header,.article-body,.article-cta{margin-inline:auto;text-align:center}
+.article-body>*,.article-cta>*{margin-inline:auto}
+.article-cta .btn{display:table}
+.cta-inner{flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.cta-actions{align-items:center}
+.contact-grid{align-items:center}
+.info{max-width:640px;margin-inline:auto}
+.info li{justify-content:center;align-items:center;flex-wrap:wrap;gap:8px 14px}
+.info span{width:auto}
+.form{text-align:center}
+.form label{align-items:center}
+.form input,.form select,.form textarea{text-align:center}
+.form-hint,.form-note{text-align:center}
+.foot-grid{justify-items:center;text-align:center}
+.foot-grid nav{align-items:center}
+.dlg-body,.dlg-spec{text-align:center}
+.dlg-spec{justify-content:center}
+.form button{align-self:center;width:min(100%,420px)}
+
+.js .reveal :is(h1,h2,h3,p,a,li,span,b,strong,summary,dt,dd,label,blockquote,cite,button){
+  opacity:0;
+  transform:translateY(18px);
+  transition:opacity 1.35s var(--ease),transform 1.5s var(--ease);
+}
+.js .reveal.in :is(h1,h2,h3,p,a,li,span,b,strong,summary,dt,dd,label,blockquote,cite,button){
+  opacity:1;
+  transform:translateY(0);
+}
+.js .reveal.in :is(h1,h2,h3,p,a,li,span,b,strong,summary,dt,dd,label,blockquote,cite,button):nth-child(1){transition-delay:.22s}
+.js .reveal.in :is(h1,h2,h3,p,a,li,span,b,strong,summary,dt,dd,label,blockquote,cite,button):nth-child(2){transition-delay:.46s}
+.js .reveal.in :is(h1,h2,h3,p,a,li,span,b,strong,summary,dt,dd,label,blockquote,cite,button):nth-child(3){transition-delay:.7s}
+.js .reveal.in :is(h1,h2,h3,p,a,li,span,b,strong,summary,dt,dd,label,blockquote,cite,button):nth-child(4){transition-delay:.94s}
+.js .reveal.in :is(h1,h2,h3,p,a,li,span,b,strong,summary,dt,dd,label,blockquote,cite,button):nth-child(5){transition-delay:1.18s}
+.js .reveal.in :is(h1,h2,h3,p,a,li,span,b,strong,summary,dt,dd,label,blockquote,cite,button):nth-child(6){transition-delay:1.42s}
+.js .reveal.in :is(h1,h2,h3,p,a,li,span,b,strong,summary,dt,dd,label,blockquote,cite,button):nth-child(7){transition-delay:1.66s}
+.js .reveal.in :is(h1,h2,h3,p,a,li,span,b,strong,summary,dt,dd,label,blockquote,cite,button):nth-child(8){transition-delay:1.9s}
+.hero-content>*{animation:none;opacity:1;transform:none}
+.hero-copy>*{
+  opacity:0;
+  transform:translateY(24px);
+  animation:slow-text-arrive 1.65s var(--ease) both;
+}
+.hero-copy>*:nth-child(1){animation-delay:.55s}
+.hero-copy>*:nth-child(2){animation-delay:.95s}
+.hero-copy>*:nth-child(3){animation-delay:1.4s}
+.hero-copy>*:nth-child(4){animation-delay:1.85s}
+.hero-location{opacity:0;animation:slow-text-arrive 1.5s var(--ease) 2.15s both}
+@keyframes slow-text-arrive{to{opacity:1;transform:translateY(0)}}
+.page-hero .wrap>*{
+  opacity:0;
+  transform:translateY(24px);
+  animation:slow-text-arrive 1.65s var(--ease) both;
+}
+.page-hero .wrap>*:nth-child(1){animation-delay:.35s}
+.page-hero .wrap>*:nth-child(2){animation-delay:.75s}
+.page-hero .wrap>*:nth-child(3){animation-delay:1.2s}
+.page-hero .wrap>*:nth-child(4){animation-delay:1.65s}
+@media(prefers-reduced-motion:reduce){
+  .js .reveal :is(h1,h2,h3,p,a,li,span,b,strong,summary,dt,dd,label,blockquote,cite,button),
+  .js .reveal.in :is(h1,h2,h3,p,a,li,span,b,strong,summary,dt,dd,label,blockquote,cite,button){
+    opacity:1;
+    transform:none;
+    transition:none;
+  }
+  .hero-content>*,.hero-copy>*,.hero-location,.page-hero .wrap>*{opacity:1;transform:none;animation:none}
+}
+@media(max-width:760px){
+  .hero-actions{justify-content:center}
+  .about-grid{justify-items:center}
+  .contact-cta .wrap{align-items:center}
+}
