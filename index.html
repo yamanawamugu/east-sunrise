@@ -108,27 +108,42 @@
           <h2>精選作品</h2>
           <p class="head-note" style="margin-top:14px">每個空間都有自己的生活樣子。</p>
         </div>
-        <div class="filters" role="group" aria-label="作品分類">
-          <button class="active" data-filter="all" aria-pressed="true">全部</button>
-          <button data-filter="yideju" aria-pressed="false">易德聚</button>
-          <button data-filter="taoyuan" aria-pressed="false">桃園山鼻</button>
-          <button data-filter="xindian" aria-pressed="false">新店中央五街</button>
-        </div>
       </div>
 
-      <div class="grid" id="grid">
-        <article class="card reveal" data-cat="yideju" data-id="0" tabindex="0" role="button" aria-haspopup="dialog" aria-label="查看作品：易德聚住宅空間">
-          <img width="1800" height="1200" loading="lazy" src="images/projects/yideju-01.webp" alt="易德聚住宅餐廚空間，淺木色中島與整合式收納">
-          <div class="card-info"><span>住宅空間 · 實景紀錄</span><h3>易德聚住宅空間</h3></div>
+      <div class="works-carousel reveal" role="region" aria-label="住宅空間作品輪播">
+        <div class="works-track" id="projectsTrack" tabindex="0">
+        <article class="card" data-id="0" tabindex="0" role="button" aria-roledescription="投影片" aria-label="作品 1，共 3 件：易德聚住宅空間" aria-haspopup="dialog">
+          <div class="card-media"><img width="1800" height="1200" loading="lazy" src="images/projects/yideju-01.webp" alt="易德聚住宅餐廚空間，淺木色中島與整合式收納"></div>
+          <div class="card-info">
+            <div class="card-meta"><span>PROJECT 01</span><span>住宅空間</span></div>
+            <div class="card-title"><h3>易德聚</h3><span class="card-arrow" aria-hidden="true">↗</span></div>
+            <p>淺木餐廚與整合收納</p>
+          </div>
         </article>
-        <article class="card reveal d1" data-cat="taoyuan" data-id="1" tabindex="0" role="button" aria-haspopup="dialog" aria-label="查看作品：桃園山鼻二路30號">
-          <img width="1800" height="1200" loading="lazy" src="images/projects/taoyuan-shanbi-01.webp" alt="桃園山鼻住宅樓梯與衣物收納空間，木質階梯連接上下樓層">
-          <div class="card-info"><span>住宅空間 · 實景紀錄</span><h3>桃園山鼻二路30號</h3></div>
+        <article class="card" data-id="1" tabindex="0" role="button" aria-roledescription="投影片" aria-label="作品 2，共 3 件：桃園山鼻二路30號" aria-haspopup="dialog">
+          <div class="card-media"><img width="1800" height="1200" loading="lazy" src="images/projects/taoyuan-shanbi-01.webp" alt="桃園山鼻住宅樓梯與衣物收納空間，木質階梯連接上下樓層"></div>
+          <div class="card-info">
+            <div class="card-meta"><span>PROJECT 02</span><span>桃園・住宅</span></div>
+            <div class="card-title"><h3>桃園山鼻二路 30 號</h3><span class="card-arrow" aria-hidden="true">↗</span></div>
+            <p>樓梯動線與日常收納</p>
+          </div>
         </article>
-        <article class="card reveal d2" data-cat="xindian" data-id="2" tabindex="0" role="button" aria-haspopup="dialog" aria-label="查看作品：新店區中央五街113號華廈">
-          <img width="1800" height="1200" loading="lazy" src="images/projects/xindian-central-01.webp" alt="新店中央五街住宅廚房，深色櫥櫃搭配明亮檯面">
-          <div class="card-info"><span>住宅空間 · 實景紀錄</span><h3>新店中央五街113號</h3></div>
+        <article class="card" data-id="2" tabindex="0" role="button" aria-roledescription="投影片" aria-label="作品 3，共 3 件：新店中央五街 113 號住宅" aria-haspopup="dialog">
+          <div class="card-media"><img width="1800" height="1200" loading="lazy" src="images/projects/xindian-central-01.webp" alt="新店中央五街住宅廚房，深色櫥櫃搭配明亮檯面"></div>
+          <div class="card-info">
+            <div class="card-meta"><span>PROJECT 03</span><span>新店・住宅</span></div>
+            <div class="card-title"><h3>新店中央五街 113 號</h3><span class="card-arrow" aria-hidden="true">↗</span></div>
+            <p>不同樓層的居家日常</p>
+          </div>
         </article>
+        </div>
+        <div class="works-controls">
+          <span class="works-count" id="worksCount" aria-live="polite">01 <i>/</i> 03</span>
+          <div class="works-arrows">
+            <button id="worksPrev" type="button" aria-label="上一件作品" disabled>←</button>
+            <button id="worksNext" type="button" aria-label="下一件作品">→</button>
+          </div>
+        </div>
       </div>
     </div>
   </section>

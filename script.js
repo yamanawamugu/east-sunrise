@@ -51,29 +51,9 @@
   }, { threshold: 0.6 });
   $$('[data-count]').forEach(el => { if (!reduce) el.textContent = '0'; countIO.observe(el); });
 
-  /* Project filter (reflected in ?cat=) */
-  const cards = $$('.card'), grid = $('#grid');
-  const filterBtns = $$('.filters button');
-  if (cards.length && grid && $('#dlg')) {
-  const applyFilter = f => {
-    filterBtns.forEach(b => {
-      const on = b.dataset.filter === f;
-      b.classList.toggle('active', on);
-      b.setAttribute('aria-pressed', on);
-    });
-    cards.forEach(c => c.classList.toggle('hide', f !== 'all' && c.dataset.cat !== f));
-    grid.classList.toggle('filtered', f !== 'all');
-  };
-  filterBtns.forEach(btn => btn.addEventListener('click', () => {
-    const f = btn.dataset.filter;
-    applyFilter(f);
-    const url = new URL(location.href);
-    f === 'all' ? url.searchParams.delete('cat') : url.searchParams.set('cat', f);
-    history.replaceState(null, '', url);
-  }));
-  const initCat = new URLSearchParams(location.search).get('cat');
-  if (initCat && filterBtns.some(b => b.dataset.filter === initCat)) applyFilter(initCat);
-
+  /* Featured project carousel and photo dialog */
+  const cards = $$('.card'), track = $('#projectsTrack');
+  if (cards.length && track && $('#dlg')) {
   /* Project dialog */
   const data = [
     {
@@ -110,7 +90,10 @@
   const dlg = $('#dlg');
   const dlgImg = $('#dlgImg'), dlgCount = $('#dlgCount');
   const dlgPrev = $('#dlgPrev'), dlgNext = $('#dlgNext');
+  const worksCount = $('#worksCount');
+  const worksPrev = $('#worksPrev'), worksNext = $('#worksNext');
   let activeProject = 0, activeImage = 0;
+  let activeSlide = 0, scrollFrame = 0;
   const showImage = () => {
     const images = data[activeProject].images;
     const image = images[activeImage];
@@ -125,6 +108,43 @@
     activeImage = (activeImage + direction + images.length) % images.length;
     showImage();
   };
+  const updateCarousel = () => {
+    const maxScroll = track.scrollWidth - track.clientWidth;
+    if (track.scrollLeft >= maxScroll - 1) {
+      activeSlide = cards.length - 1;
+    } else {
+      const trackLeft = track.getBoundingClientRect().left;
+      activeSlide = cards.reduce((closest, card, index) => {
+        const cardLeft = card.getBoundingClientRect().left - trackLeft;
+        const closestLeft = cards[closest].getBoundingClientRect().left - trackLeft;
+        return Math.abs(cardLeft) < Math.abs(closestLeft) ? index : closest;
+      }, 0);
+    }
+    worksCount.innerHTML = `${String(activeSlide + 1).padStart(2, '0')} <i>/</i> ${String(cards.length).padStart(2, '0')}`;
+    worksPrev.disabled = activeSlide === 0;
+    worksNext.disabled = activeSlide === cards.length - 1;
+  };
+  const goToSlide = index => {
+    const nextSlide = Math.max(0, Math.min(cards.length - 1, index));
+    cards[nextSlide].scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'nearest', inline: 'start' });
+  };
+  track.addEventListener('scroll', () => {
+    if (scrollFrame) return;
+    scrollFrame = requestAnimationFrame(() => {
+      updateCarousel();
+      scrollFrame = 0;
+    });
+  }, { passive: true });
+  addEventListener('resize', updateCarousel, { passive: true });
+  worksPrev.addEventListener('click', () => goToSlide(activeSlide - 1));
+  worksNext.addEventListener('click', () => goToSlide(activeSlide + 1));
+  track.addEventListener('keydown', e => {
+    if (e.target.closest('.card') || e.target === track) {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); goToSlide(activeSlide - 1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); goToSlide(activeSlide + 1); }
+    }
+  });
+  updateCarousel();
   const open = c => {
     const i = +c.dataset.id;
     activeProject = i;
@@ -148,6 +168,11 @@
   dlgPrev.addEventListener('click', () => moveImage(-1));
   dlgNext.addEventListener('click', () => moveImage(1));
   dlg.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      dlg.close();
+      return;
+    }
     if (e.key === 'ArrowLeft') moveImage(-1);
     if (e.key === 'ArrowRight') moveImage(1);
   });
