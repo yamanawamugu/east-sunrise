@@ -76,19 +76,60 @@
 
   /* Project dialog */
   const data = [
-    { d: '以淺木色電視牆、簡潔收納與開放式客餐廚配置，整合居家主要活動空間。', s: ['空間|客廳與餐廚', '專案|新店住宅'] },
-    { d: '淺色床組搭配簡潔牆面與收納，保留舒適、明亮的休息空間。', s: ['空間|臥室', '專案|桃園山鼻住宅'] },
-    { d: '以沙發、電視牆與餐廚區串聯生活動線，呈現新店住宅的客餐廳實景。', s: ['空間|客餐廳', '專案|新店住宅'] },
-    { d: '以淺色檯面、鏡櫃和玻璃淋浴間整理衛浴設備與使用區域。', s: ['空間|衛浴', '專案|新店住宅'] },
-    { d: '木質踏階、立面格柵和樓梯下方收納相互整合，延伸空間的垂直動線。', s: ['空間|樓梯與木作', '專案|桃園山鼻住宅'] },
-    { d: '深色櫥櫃搭配淺色檯面與嵌入式設備，清楚分配料理與收納空間。', s: ['空間|廚房', '專案|新店住宅'] },
-    { d: '利用窗邊木作桌面和層架，整理工作區與日常收納，並保留自然採光。', s: ['空間|書桌與收納', '專案|新店住宅'] },
+    {
+      d: '淺木色中島、整合式收納與開放餐廚，讓備餐、用餐與日常相聚自然相連。',
+      s: ['空間|住宅餐廚與收納', '專案|易德聚'],
+      images: [
+        { src: 'images/projects/yideju-01.webp', alt: '易德聚住宅餐廚空間，淺木色中島與整合式收納' },
+        { src: 'images/projects/yideju-02.webp', alt: '易德聚住宅客廳電視牆，淺木色櫃體搭配展示燈光' },
+        { src: 'images/projects/yideju-03.webp', alt: '易德聚住宅客餐廳與廚房相連的開放空間' },
+        { src: 'images/projects/yideju-04.webp', alt: '易德聚住宅梳妝與收納區，弧形門洞連接室內空間' },
+      ],
+    },
+    {
+      d: '從樓梯、展示收納到工作角落，梳理垂直動線與日常使用，讓每一層都保有清楚節奏。',
+      s: ['空間|住宅室內', '地點|桃園山鼻二路30號'],
+      images: [
+        { src: 'images/projects/taoyuan-shanbi-01.webp', alt: '桃園山鼻住宅樓梯與衣物收納空間' },
+        { src: 'images/projects/taoyuan-shanbi-02.webp', alt: '桃園山鼻住宅樓梯下方的木作展示收納' },
+        { src: 'images/projects/taoyuan-shanbi-03.webp', alt: '桃園山鼻住宅臥室，淺色床組與簡潔收納' },
+        { src: 'images/projects/taoyuan-shanbi-04.webp', alt: '桃園山鼻住宅起居空間與工作桌' },
+      ],
+    },
+    {
+      d: '收錄二樓、三樓與六樓的住宅實景，依不同樓層整理廚房、起居與收納，呈現各自的生活樣貌。',
+      s: ['空間|住宅室內', '內容|二樓、三樓與六樓實景'],
+      images: [
+        { src: 'images/projects/xindian-central-01.webp', alt: '新店中央五街二樓住宅廚房，深色櫥櫃搭配明亮檯面' },
+        { src: 'images/projects/xindian-central-02.webp', alt: '新店中央五街三樓住宅客廳，木質電視牆與淺色地坪' },
+        { src: 'images/projects/xindian-central-03.webp', alt: '新店中央五街六樓住宅工作與收納空間' },
+        { src: 'images/projects/xindian-central-04.webp', alt: '新店中央五街華廈建築外觀' },
+      ],
+    },
   ];
   const dlg = $('#dlg');
+  const dlgImg = $('#dlgImg'), dlgCount = $('#dlgCount');
+  const dlgPrev = $('#dlgPrev'), dlgNext = $('#dlgNext');
+  let activeProject = 0, activeImage = 0;
+  const showImage = () => {
+    const images = data[activeProject].images;
+    const image = images[activeImage];
+    dlgImg.src = image.src;
+    dlgImg.alt = image.alt;
+    dlgCount.textContent = `${String(activeImage + 1).padStart(2, '0')} / ${String(images.length).padStart(2, '0')}`;
+    dlgPrev.disabled = images.length < 2;
+    dlgNext.disabled = images.length < 2;
+  };
+  const moveImage = direction => {
+    const images = data[activeProject].images;
+    activeImage = (activeImage + direction + images.length) % images.length;
+    showImage();
+  };
   const open = c => {
-    const i = +c.dataset.id, img = $('img', c);
-    $('#dlgImg').src = img.src;
-    $('#dlgImg').alt = img.alt;
+    const i = +c.dataset.id;
+    activeProject = i;
+    activeImage = 0;
+    showImage();
     $('#dlgMeta').textContent = $('span', c).textContent;
     $('#dlgTitle').textContent = $('h3', c).textContent;
     $('#dlgDesc').textContent = data[i].d;
@@ -104,6 +145,12 @@
     document.body.style.overflow = 'hidden';
     history.replaceState(null, '', `#work-${i}`);
   };
+  dlgPrev.addEventListener('click', () => moveImage(-1));
+  dlgNext.addEventListener('click', () => moveImage(1));
+  dlg.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') moveImage(-1);
+    if (e.key === 'ArrowRight') moveImage(1);
+  });
   cards.forEach(c => {
     c.addEventListener('click', () => open(c));
     c.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(c); } });
