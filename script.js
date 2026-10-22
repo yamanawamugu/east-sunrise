@@ -3,6 +3,24 @@
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  const motionToggle = $('#motionToggle');
+  if (motionToggle) {
+    const setMotionPaused = paused => {
+      document.documentElement.classList.toggle('motion-paused', paused);
+      motionToggle.setAttribute('aria-pressed', String(paused));
+      motionToggle.setAttribute('title', paused ? '播放背景動態' : '暫停背景動態');
+    };
+    setMotionPaused(reduce);
+    if (reduce) {
+      motionToggle.disabled = true;
+      motionToggle.setAttribute('aria-label', '背景動態已依系統偏好停用');
+    } else {
+      motionToggle.addEventListener('click', () => {
+        setMotionPaused(!document.documentElement.classList.contains('motion-paused'));
+      });
+    }
+  }
+
   /* Nav: solid background after scrolling, mobile menu */
   const nav = $('#nav'), menu = $('#menu'), burger = $('#burger');
   const onScroll = () => {
